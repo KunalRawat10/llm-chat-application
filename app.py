@@ -3,10 +3,18 @@ NexChat Studio - Monochromatic 3D Obsidian & Starfield Interface
 ================================================================
 Author: Kunal Rawat
 Tech Stack: Streamlit, Groq API, 3D Obsidian Glassmorphic CSS
+
+Features:
+- Real-time token streaming with live throughput velocity (tok/s)
+- Multi-turn conversation state & context window utilization buffer
+- 3D obsidian beveled cards, tactile buttons, and animated starfield
+- Multi-format session export (.md and ML fine-tuning .jsonl)
+- Defensive API exception handling & granular per-query telemetry
 """
 
 import os
 import time
+import json
 import streamlit as st
 from groq import Groq, APIConnectionError, RateLimitError, APIStatusError
 
@@ -153,9 +161,9 @@ st.markdown("""
         display: inline-block;
         background: #09090b;
         color: #a1a1aa;
-        padding: 5px 12px;
+        padding: 6px 14px;
         border-radius: 8px;
-        font-size: 0.78rem;
+        font-size: 0.8rem;
         margin-top: 8px;
         border-top: 1px solid rgba(255, 255, 255, 0.12);
         border-left: 1px solid rgba(255, 255, 255, 0.06);
@@ -183,9 +191,10 @@ PERSONA_PRESETS = {
     "Custom Persona": ""
 }
 
-# Cost Constants
+# Cost Constants & Context Limits
 INPUT_COST_PER_M = 0.15
 OUTPUT_COST_PER_M = 0.60
+CONTEXT_LIMIT = 8192
 
 # State Management
 if "messages" not in st.session_state:
@@ -196,6 +205,8 @@ if "session_cost" not in st.session_state:
     st.session_state.session_cost = 0.0
 if "query_count" not in st.session_state:
     st.session_state.query_count = 0
+if "current_context_tokens" not in st.session_state:
+    st.session_state.current_context_tokens = 0
 
 # Sidebar Control Hub
 with st.sidebar:
@@ -232,8 +243,16 @@ with st.sidebar:
         top_p = st.slider("Top-P", 0.1, 1.0, 0.9, 0.05)
 
     st.markdown("---")
-    st.markdown("### Session Metrics")
+    st.markdown("### Context & Memory")
     
+    # Live Context Window Utilization Meter
+    context_ratio = min(1.0, st.session_state.current_context_tokens / CONTEXT_LIMIT)
+    st.progress(
+        context_ratio,
+        text=f"Buffer: {st.session_state.current_context_tokens} / {CONTEXT_LIMIT} tok ({int(context_ratio * 100)}%)"
+    )
+
+    st.markdown("### Session Metrics")
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(f"""
@@ -251,23 +270,35 @@ with st.sidebar:
     with col2:
         st.markdown(f"""
         <div class="card-3d">
-            <span style="font-size:0.72rem; color:#71717a; font-weight:600;">TOKENS</span><br>
+            <span style="font-size:0.72rem; color:#71717a; font-weight:600;">SESSION TOKENS</span><br>
             <span style="font-size:1.25rem; font-weight:700; color:#fafafa;">{st.session_state.session_tokens}</span>
         </div>
         """, unsafe_allow_html=True)
     
     st.markdown("---")
     
+    # Multi-Format Session Export
     if st.session_state.messages:
+        # Markdown Export
         chat_markdown = "# NexChat Session Export\n\n"
         for m in st.session_state.messages:
             chat_markdown += f"### {m['role'].upper()}\n{m['content']}\n\n---\n\n"
             
         st.download_button(
-            label="Export Session (.md)",
+            label="Export Log (.md)",
             data=chat_markdown,
             file_name="session_log.md",
             mime="text/markdown",
+            use_container_width=True
+        )
+
+        # ML Fine-Tuning JSONL Export
+        jsonl_data = json.dumps({"messages": st.session_state.messages}, indent=None) + "\n"
+        st.download_button(
+            label="Export Dataset (.jsonl)",
+            data=jsonl_data,
+            file_name="train_dataset.jsonl",
+            mime="application/json",
             use_container_width=True
         )
 
@@ -276,6 +307,7 @@ with st.sidebar:
         st.session_state.session_tokens = 0
         st.session_state.session_cost = 0.0
         st.session_state.query_count = 0
+        st.session_state.current_context_tokens = 0
         st.rerun()
 
 # Main Canvas Header
@@ -351,21 +383,27 @@ if user_prompt:
                 response_content = st.write_stream(stream_text_chunks(raw_stream))
                 latency = round(time.time() - start_time, 2)
 
+                # Telemetry & Throughput Calculations
                 prompt_tokens = len(str(payload_messages)) // 4
                 completion_tokens = len(response_content) // 4
                 total_tokens = prompt_tokens + completion_tokens
+                tokens_per_sec = round(completion_tokens / max(latency, 0.01), 1)
+                
                 cost = (
                     (prompt_tokens / 1_000_000 * INPUT_COST_PER_M) +
                     (completion_tokens / 1_000_000 * OUTPUT_COST_PER_M)
                 )
 
+                # State Updates
                 st.session_state.session_tokens += total_tokens
                 st.session_state.session_cost += cost
                 st.session_state.query_count += 1
+                st.session_state.current_context_tokens = total_tokens
 
                 st.markdown(
                     f'<div class="telemetry-chip">⚡ Latency: <b>{latency}s</b> | '
-                    f'🔢 Tokens: <b>{total_tokens}</b> | '
+                    f'🚀 Speed: <b>{tokens_per_sec} tok/s</b> | '
+                    f'🔢 Tokens: <b>{total_tokens}</b> (In: {prompt_tokens}, Out: {completion_tokens}) | '
                     f'💰 Cost: <b>${cost:.6f}</b></div>',
                     unsafe_allow_html=True
                 )
