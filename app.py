@@ -1,8 +1,8 @@
 """
-NexChat Engine - Cyber-Modern Multi-Turn LLM Conversation System
+NexChat Studio - Cyber-Futuristic 3D & Aurora Animated Interface
 ================================================================
 Author: Kunal Rawat
-Tech Stack: Streamlit, Groq API, Custom CSS Animations
+Tech Stack: Streamlit, Groq API, Advanced CSS3 Keyframes & 3D Lighting
 """
 
 import os
@@ -12,130 +12,162 @@ from groq import Groq, APIConnectionError, RateLimitError, APIStatusError
 
 # Page Configuration
 st.set_page_config(
-    page_title="NexChat Studio | Next-Gen AI Engine",
+    page_title="NexChat Studio | Next-Gen AI",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Injected Custom CSS Animations & Glassmorphism Theme
+# Advanced 3D Aesthetics, Aurora Mesh Animation, and Cyberpunk Glassmorphism
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
 
     /* Global Typography */
-    html, body, [class*="css"] {
-        font-family: 'Plus Jakarta Sans', sans-serif;
+    html, body, [class*="css"], .stApp {
+        font-family: 'Space Grotesk', sans-serif !important;
     }
     
     code, pre {
         font-family: 'JetBrains Mono', monospace !important;
     }
 
-    /* Animated Gradient Title */
-    @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
+    /* Ambient Moving Aurora Mesh Background */
+    .stApp {
+        background: radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.18) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.18) 0%, transparent 40%),
+                    radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.12) 0%, transparent 60%),
+                    linear-gradient(180deg, #070913 0%, #0c1022 50%, #05070e 100%) !important;
+        background-attachment: fixed !important;
+        background-size: 200% 200% !important;
+        animation: auroraFlow 14s ease infinite alternate !important;
+    }
+
+    @keyframes auroraFlow {
+        0% { background-position: 0% 0%; }
         50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+        100% { background-position: 0% 100%; }
     }
 
-    .animated-title {
-        background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899, #3b82f6);
-        background-size: 300% 300%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: gradientShift 6s ease infinite;
-        font-weight: 800;
-        font-size: 2.6rem;
-        letter-spacing: -0.5px;
+    /* 3D Floating Isometric Header */
+    @keyframes float3D {
+        0% { transform: translateY(0px) rotateX(0deg); }
+        50% { transform: translateY(-7px) rotateX(4deg); }
+        100% { transform: translateY(0px) rotateX(0deg); }
+    }
+
+    .hero-3d-title {
+        font-size: 3.2rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #ffffff;
+        text-shadow: 
+            0 1px 0 #9333ea,
+            0 2px 0 #7e22ce,
+            0 3px 0 #6b21a8,
+            0 4px 0 #581c87,
+            0 6px 12px rgba(147, 51, 234, 0.4),
+            0 12px 30px rgba(6, 182, 212, 0.3);
+        animation: float3D 5s ease-in-out infinite;
         margin-bottom: 0px;
+        perspective: 1000px;
     }
 
-    /* Pulsing Status Dot */
-    @keyframes pulse {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    /* Neon Hologram Live Status Badge */
+    @keyframes pulseHolo {
+        0% { box-shadow: 0 0 5px rgba(6, 182, 212, 0.6), inset 0 0 5px rgba(6, 182, 212, 0.3); }
+        50% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.9), inset 0 0 10px rgba(6, 182, 212, 0.6); }
+        100% { box-shadow: 0 0 5px rgba(6, 182, 212, 0.6), inset 0 0 5px rgba(6, 182, 212, 0.3); }
     }
 
-    .status-badge {
+    .holo-badge {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: rgba(34, 197, 94, 0.12);
-        color: #4ade80;
-        padding: 5px 14px;
-        border-radius: 9999px;
+        background: rgba(6, 182, 212, 0.1);
+        color: #38bdf8;
+        padding: 6px 16px;
+        border-radius: 30px;
         font-size: 0.82rem;
-        font-weight: 600;
-        border: 1px solid rgba(34, 197, 94, 0.3);
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        animation: pulseHolo 3s infinite;
         margin-bottom: 15px;
+        backdrop-filter: blur(10px);
     }
 
-    .status-dot {
-        width: 8px;
-        height: 8px;
-        background-color: #22c55e;
-        border-radius: 50%;
-        animation: pulse 2s infinite;
-    }
-
-    /* Glassmorphic Metric Cards */
-    .glass-card {
-        background: rgba(30, 34, 45, 0.6);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 14px;
+    /* 3D Glassmorphic Cards */
+    .glass-card-3d {
+        background: rgba(18, 22, 38, 0.65);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
         padding: 16px;
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         margin-bottom: 12px;
     }
 
-    .glass-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(99, 102, 241, 0.4);
+    .glass-card-3d:hover {
+        transform: translateY(-5px) scale(1.02);
+        border-color: rgba(147, 51, 234, 0.5);
+        box-shadow: 0 15px 35px -5px rgba(124, 58, 237, 0.3),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.25);
     }
 
-    /* Sidebar Refinement */
+    /* Sidebar Custom Glass Effect */
     section[data-testid="stSidebar"] {
-        background-color: #0d1117;
-        border-right: 1px solid rgba(255, 255, 255, 0.06);
+        background: rgba(8, 11, 22, 0.85) !important;
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* Button Animations */
+    /* 3D Button Depth */
     .stButton > button {
-        border-radius: 10px;
-        font-weight: 600;
-        transition: all 0.25s ease;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(129, 140, 248, 0.3) !important;
+        border-radius: 12px !important;
+        font-weight: 700 !important;
+        padding: 10px 20px !important;
+        box-shadow: 0 4px 0 #1e1b4b, 0 8px 20px rgba(79, 70, 229, 0.25) !important;
+        transition: all 0.15s ease !important;
     }
 
     .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.25);
-        border-color: #6366f1;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 0 #1e1b4b, 0 12px 25px rgba(124, 58, 237, 0.4) !important;
+        border-color: #a855f7 !important;
     }
 
-    /* Telemetry Bar */
+    .stButton > button:active {
+        transform: translateY(3px) !important;
+        box-shadow: 0 1px 0 #1e1b4b !important;
+    }
+
+    /* Glowing Telemetry Chip */
     .telemetry-chip {
         display: inline-block;
-        background: rgba(99, 102, 241, 0.1);
-        color: #a5b4fc;
-        padding: 4px 10px;
-        border-radius: 8px;
-        font-size: 0.8rem;
-        margin-top: 6px;
-        border: 1px solid rgba(99, 102, 241, 0.2);
+        background: linear-gradient(90deg, rgba(124, 58, 237, 0.15), rgba(6, 182, 212, 0.15));
+        color: #e0e7ff;
+        padding: 6px 14px;
+        border-radius: 10px;
+        font-size: 0.82rem;
+        margin-top: 8px;
+        border: 1px solid rgba(124, 58, 237, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 </style>
 """, unsafe_allow_html=True)
 
-# System Persona Presets
+# System Personas
 PERSONA_PRESETS = {
     "⚡ Technical Architect": (
-        "You are a Principal Software & AI Architect. Provide modular, production-ready "
+        "You are a Principal Software & AI Architect. Provide modular, production-grade "
         "code solutions, detailed system design patterns, and zero conversational filler."
     ),
     "🔬 Deep Learning Researcher": (
@@ -157,7 +189,7 @@ PERSONA_PRESETS = {
 INPUT_COST_PER_M = 0.15
 OUTPUT_COST_PER_M = 0.60
 
-# Initialize Session State
+# Session State Initialization
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "session_tokens" not in st.session_state:
@@ -169,7 +201,7 @@ if "query_count" not in st.session_state:
 
 # Sidebar Control Hub
 with st.sidebar:
-    st.markdown('<div class="status-badge"><span class="status-dot"></span> GROQ ACCELERATED ENGINE</div>', unsafe_allow_html=True)
+    st.markdown('<div class="holo-badge">⚡ GROQ ACCELERATED ENGINE</div>', unsafe_allow_html=True)
     st.markdown("## ⚙️ Control Center")
     st.caption("Engineered by **Kunal Rawat**")
     
@@ -207,27 +239,27 @@ with st.sidebar:
         top_p = st.slider("Top-P (Nucleus Sampling)", 0.1, 1.0, 0.9, 0.05)
 
     st.markdown("---")
-    st.subheader("📊 Session Analytics")
+    st.subheader("📊 Live Telemetry")
     
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(f"""
-        <div class="glass-card">
-            <span style="font-size:0.75rem; color:#94a3b8;">REQUESTS</span><br>
-            <span style="font-size:1.3rem; font-weight:700; color:#f8fafc;">{st.session_state.query_count}</span>
+        <div class="glass-card-3d">
+            <span style="font-size:0.75rem; color:#94a3b8; font-weight:700;">REQUESTS</span><br>
+            <span style="font-size:1.4rem; font-weight:800; color:#f8fafc;">{st.session_state.query_count}</span>
         </div>
         """, unsafe_allow_html=True)
         st.markdown(f"""
-        <div class="glass-card">
-            <span style="font-size:0.75rem; color:#94a3b8;">EST. COST</span><br>
-            <span style="font-size:1.3rem; font-weight:700; color:#38bdf8;">${st.session_state.session_cost:.5f}</span>
+        <div class="glass-card-3d">
+            <span style="font-size:0.75rem; color:#94a3b8; font-weight:700;">EST. COST</span><br>
+            <span style="font-size:1.4rem; font-weight:800; color:#38bdf8;">${st.session_state.session_cost:.5f}</span>
         </div>
         """, unsafe_allow_html=True)
     with col2:
         st.markdown(f"""
-        <div class="glass-card">
-            <span style="font-size:0.75rem; color:#94a3b8;">TOKENS</span><br>
-            <span style="font-size:1.3rem; font-weight:700; color:#a855f7;">{st.session_state.session_tokens}</span>
+        <div class="glass-card-3d">
+            <span style="font-size:0.75rem; color:#94a3b8; font-weight:700;">TOKENS</span><br>
+            <span style="font-size:1.4rem; font-weight:800; color:#c084fc;">{st.session_state.session_tokens}</span>
         </div>
         """, unsafe_allow_html=True)
     
@@ -253,10 +285,10 @@ with st.sidebar:
         st.session_state.query_count = 0
         st.rerun()
 
-# Main App Header
-st.markdown('<h1 class="animated-title">⚡ NexChat Studio</h1>', unsafe_allow_html=True)
+# Main Header & 3D Title
+st.markdown('<h1 class="hero-3d-title">⚡ NexChat Studio</h1>', unsafe_allow_html=True)
 st.markdown(
-    "<p style='color: #94a3b8; font-size: 1.05rem; margin-top: -8px; margin-bottom: 24px;'>"
+    "<p style='color: #94a3b8; font-size: 1.1rem; margin-top: -6px; margin-bottom: 26px;'>"
     "Next-generation conversational interface with real-time streaming, hyperparameter calibration, and token cost telemetry."
     "</p>",
     unsafe_allow_html=True
@@ -264,7 +296,7 @@ st.markdown(
 
 # Starter Quick Prompt Cards
 if not st.session_state.messages:
-    st.markdown("##### 🚀 Quick Start Workflows")
+    st.markdown("##### 🚀 Fast-Track Prompt Presets")
     p_col1, p_col2, p_col3 = st.columns(3)
     
     with p_col1:
@@ -308,7 +340,6 @@ if user_prompt:
         with st.chat_message("assistant"):
             start_time = time.time()
             try:
-                # Live streaming generation
                 stream = client.chat.completions.create(
                     model=model_name,
                     messages=payload_messages,
@@ -330,7 +361,6 @@ if user_prompt:
                     (completion_tokens / 1_000_000 * OUTPUT_COST_PER_M)
                 )
 
-                # Accumulate telemetry
                 st.session_state.session_tokens += total_tokens
                 st.session_state.session_cost += cost
                 st.session_state.query_count += 1
