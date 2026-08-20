@@ -23,7 +23,6 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-    /* Global Typography */
     html, body, [class*="css"], .stApp {
         font-family: 'Space Grotesk', -apple-system, sans-serif !important;
         color: #f4f4f5 !important;
@@ -33,7 +32,6 @@ st.markdown("""
         font-family: 'JetBrains Mono', monospace !important;
     }
 
-    /* Pure Obsidian Canvas with Deep Space Starfield & Subtle Twinkle */
     @keyframes starPulse {
         0%, 100% { opacity: 0.85; }
         50% { opacity: 1.0; }
@@ -53,7 +51,6 @@ st.markdown("""
         animation: starPulse 6s ease-in-out infinite !important;
     }
 
-    /* 3D Metallic Embossed Title */
     .title-3d {
         font-size: 2.3rem;
         font-weight: 700;
@@ -74,7 +71,6 @@ st.markdown("""
         margin-bottom: 24px;
     }
 
-    /* 3D Obsidian Beveled Cards */
     .card-3d {
         background: linear-gradient(180deg, #111113 0%, #080809 100%);
         border-top: 1px solid rgba(255, 255, 255, 0.15);
@@ -99,7 +95,6 @@ st.markdown("""
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
 
-    /* Tactile 3D Buttons */
     .stButton > button {
         background: linear-gradient(180deg, #1f1f23 0%, #121215 100%) !important;
         color: #f4f4f5 !important;
@@ -126,13 +121,11 @@ st.markdown("""
         box-shadow: 0 1px 0 #09090b !important;
     }
 
-    /* Sidebar Glassmorphism */
     section[data-testid="stSidebar"] {
         background: #050507 !important;
         border-right: 1px solid #18181b !important;
     }
 
-    /* Status Indicator */
     .status-badge {
         display: inline-flex;
         align-items: center;
@@ -156,7 +149,6 @@ st.markdown("""
         box-shadow: 0 0 8px #22c55e;
     }
 
-    /* Telemetry Chip */
     .telemetry-chip {
         display: inline-block;
         background: #09090b;
@@ -177,7 +169,7 @@ st.markdown("""
 # System Personas
 PERSONA_PRESETS = {
     "Technical Architect": (
-        "You are a Principal Software & AI Architect. Provide modular, production-ready "
+        "You are a Principal Software & AI Architect. Provide modular, production-grade "
         "code solutions, system architecture patterns, and concise technical breakdowns."
     ),
     "Machine Learning Engineer": (
@@ -313,6 +305,14 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
+# Text Stream Generator to cleanly extract content strings
+def stream_text_chunks(raw_stream):
+    for chunk in raw_stream:
+        if chunk.choices and len(chunk.choices) > 0:
+            delta = chunk.choices[0].delta
+            if hasattr(delta, 'content') and delta.content:
+                yield delta.content
+
 # Query Submission Pipeline
 starter_val = st.session_state.pop("preset_prompt", None)
 user_prompt = st.chat_input("Ask a question or enter a command...") or starter_val
@@ -339,7 +339,7 @@ if user_prompt:
         with st.chat_message("assistant"):
             start_time = time.time()
             try:
-                stream = client.chat.completions.create(
+                raw_stream = client.chat.completions.create(
                     model=model_name,
                     messages=payload_messages,
                     temperature=temperature,
@@ -348,7 +348,7 @@ if user_prompt:
                     stream=True
                 )
                 
-                response_content = st.write_stream(stream)
+                response_content = st.write_stream(stream_text_chunks(raw_stream))
                 latency = round(time.time() - start_time, 2)
 
                 prompt_tokens = len(str(payload_messages)) // 4
