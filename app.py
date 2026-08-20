@@ -1,8 +1,8 @@
 """
-NexChat Studio - Pure Dark & Starfield AI Conversation Engine
-=============================================================
+NexChat Studio - Monochromatic 3D Obsidian & Starfield Interface
+================================================================
 Author: Kunal Rawat
-Tech Stack: Streamlit, Groq API, Custom Minimalist CSS Starfield
+Tech Stack: Streamlit, Groq API, 3D Obsidian Glassmorphic CSS
 """
 
 import os
@@ -18,69 +18,134 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Minimalist Deep-Black Starfield & Sleek UI Theme
+# Deep Space Starfield with 3D Obsidian & Metallic Rim Lighting
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-    /* Global Typography & Deep Dark Background */
+    /* Global Typography */
     html, body, [class*="css"], .stApp {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        color: #f1f5f9 !important;
+        font-family: 'Space Grotesk', -apple-system, sans-serif !important;
+        color: #f4f4f5 !important;
     }
     
     code, pre {
         font-family: 'JetBrains Mono', monospace !important;
     }
 
-    /* Pure Black Canvas with Crisp Starfield Grid */
+    /* Pure Obsidian Canvas with Deep Space Starfield & Subtle Twinkle */
+    @keyframes starPulse {
+        0%, 100% { opacity: 0.85; }
+        50% { opacity: 1.0; }
+    }
+
     .stApp {
         background-color: #000000 !important;
         background-image: 
-            radial-gradient(1px 1px at 20px 30px, #ffffff 100%, transparent),
-            radial-gradient(1px 1px at 75px 120px, rgba(255,255,255,0.7) 100%, transparent),
-            radial-gradient(1.5px 1.5px at 160px 45px, #ffffff 100%, transparent),
-            radial-gradient(1px 1px at 240px 190px, rgba(255,255,255,0.4) 100%, transparent),
-            radial-gradient(1.5px 1.5px at 320px 260px, rgba(255,255,255,0.8) 100%, transparent),
-            radial-gradient(1px 1px at 410px 80px, #ffffff 100%, transparent),
-            radial-gradient(1px 1px at 480px 220px, rgba(255,255,255,0.6) 100%, transparent);
+            radial-gradient(1px 1px at 25px 35px, #ffffff 100%, transparent),
+            radial-gradient(1px 1px at 85px 130px, rgba(255,255,255,0.7) 100%, transparent),
+            radial-gradient(1.5px 1.5px at 170px 50px, #ffffff 100%, transparent),
+            radial-gradient(1px 1px at 260px 210px, rgba(255,255,255,0.5) 100%, transparent),
+            radial-gradient(2px 2px at 340px 280px, #ffffff 100%, transparent),
+            radial-gradient(1px 1px at 430px 90px, rgba(255,255,255,0.8) 100%, transparent),
+            radial-gradient(1.5px 1.5px at 510px 240px, #ffffff 100%, transparent);
         background-size: 550px 550px !important;
+        animation: starPulse 6s ease-in-out infinite !important;
     }
 
-    /* Minimalist Sidebar */
-    section[data-testid="stSidebar"] {
-        background: #030303 !important;
-        border-right: 1px solid #171717 !important;
-    }
-
-    /* Clean Sleek Header */
-    .brand-title {
-        font-size: 2.1rem;
+    /* 3D Metallic Embossed Title */
+    .title-3d {
+        font-size: 2.3rem;
         font-weight: 700;
-        letter-spacing: -0.8px;
+        letter-spacing: -0.5px;
         color: #ffffff;
+        text-shadow: 
+            0 1px 0 #52525b,
+            0 2px 0 #3f3f46,
+            0 3px 0 #27272a,
+            0 4px 0 #18181b,
+            0 8px 24px rgba(255, 255, 255, 0.12);
         margin-bottom: 2px;
     }
 
-    .brand-sub {
-        color: #71717a;
+    .subtitle-text {
+        color: #a1a1aa;
         font-size: 0.95rem;
         margin-bottom: 24px;
     }
 
-    /* Status Badge */
+    /* 3D Obsidian Beveled Cards */
+    .card-3d {
+        background: linear-gradient(180deg, #111113 0%, #080809 100%);
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+        border-right: 1px solid rgba(255, 255, 255, 0.04);
+        border-bottom: 1px solid #000000;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 12px;
+        box-shadow: 
+            0 8px 20px -4px rgba(0, 0, 0, 0.8),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .card-3d:hover {
+        transform: translateY(-3px);
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 
+            0 14px 28px -4px rgba(0, 0, 0, 0.9),
+            0 0 15px rgba(255, 255, 255, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    /* Tactile 3D Buttons */
+    .stButton > button {
+        background: linear-gradient(180deg, #1f1f23 0%, #121215 100%) !important;
+        color: #f4f4f5 !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-right: 1px solid rgba(0, 0, 0, 0.5) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.8) !important;
+        border-radius: 9px !important;
+        font-weight: 600 !important;
+        font-size: 0.88rem !important;
+        box-shadow: 0 4px 0 #09090b, 0 6px 14px rgba(0, 0, 0, 0.6) !important;
+        transition: all 0.12s ease !important;
+    }
+
+    .stButton > button:hover {
+        background: linear-gradient(180deg, #27272a 0%, #18181b 100%) !important;
+        border-top-color: rgba(255, 255, 255, 0.35) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 5px 0 #09090b, 0 8px 18px rgba(255, 255, 255, 0.06) !important;
+    }
+
+    .stButton > button:active {
+        transform: translateY(3px) !important;
+        box-shadow: 0 1px 0 #09090b !important;
+    }
+
+    /* Sidebar Glassmorphism */
+    section[data-testid="stSidebar"] {
+        background: #050507 !important;
+        border-right: 1px solid #18181b !important;
+    }
+
+    /* Status Indicator */
     .status-badge {
         display: inline-flex;
         align-items: center;
         gap: 7px;
         background: #09090b;
-        color: #a1a1aa;
-        padding: 4px 12px;
+        color: #d4d4d8;
+        padding: 5px 14px;
         border-radius: 9999px;
-        font-size: 0.75rem;
-        font-weight: 500;
+        font-size: 0.76rem;
+        font-weight: 600;
         border: 1px solid #27272a;
-        margin-bottom: 18px;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+        margin-bottom: 16px;
     }
 
     .status-dot {
@@ -88,48 +153,23 @@ st.markdown("""
         height: 6px;
         background-color: #22c55e;
         border-radius: 50%;
+        box-shadow: 0 0 8px #22c55e;
     }
 
-    /* Minimalist Monochromatic Metric Panels */
-    .metric-card {
-        background: #09090b;
-        border: 1px solid #18181b;
-        border-radius: 10px;
-        padding: 14px;
-        margin-bottom: 10px;
-    }
-    
-    .metric-card:hover {
-        border-color: #27272a;
-    }
-
-    /* Clean Solid Buttons */
-    .stButton > button {
-        background: #18181b !important;
-        color: #fafafa !important;
-        border: 1px solid #27272a !important;
-        border-radius: 8px !important;
-        font-weight: 500 !important;
-        font-size: 0.88rem !important;
-        transition: all 0.2s ease !important;
-    }
-
-    .stButton > button:hover {
-        background: #27272a !important;
-        border-color: #3f3f46 !important;
-        color: #ffffff !important;
-    }
-
-    /* Inline Telemetry Chip */
+    /* Telemetry Chip */
     .telemetry-chip {
         display: inline-block;
         background: #09090b;
         color: #a1a1aa;
-        padding: 4px 10px;
-        border-radius: 6px;
+        padding: 5px 12px;
+        border-radius: 8px;
         font-size: 0.78rem;
-        margin-top: 6px;
-        border: 1px solid #18181b;
+        margin-top: 8px;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        border-left: 1px solid rgba(255, 255, 255, 0.06);
+        border-right: 1px solid rgba(0, 0, 0, 0.5);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -137,7 +177,7 @@ st.markdown("""
 # System Personas
 PERSONA_PRESETS = {
     "Technical Architect": (
-        "You are a Principal Software & AI Architect. Provide modular, production-grade "
+        "You are a Principal Software & AI Architect. Provide modular, production-ready "
         "code solutions, system architecture patterns, and concise technical breakdowns."
     ),
     "Machine Learning Engineer": (
@@ -165,10 +205,10 @@ if "session_cost" not in st.session_state:
 if "query_count" not in st.session_state:
     st.session_state.query_count = 0
 
-# Sidebar Control Panel
+# Sidebar Control Hub
 with st.sidebar:
-    st.markdown('<div class="status-badge"><span class="status-dot"></span> GROQ ENGINE ACTIVE</div>', unsafe_allow_html=True)
-    st.markdown("### Settings")
+    st.markdown('<div class="status-badge"><span class="status-dot"></span> INFERENCE READY</div>', unsafe_allow_html=True)
+    st.markdown("### Controls")
     
     api_key = st.text_input(
         "Groq API Key",
@@ -190,9 +230,9 @@ with st.sidebar:
     persona_choice = st.selectbox("System Persona", list(PERSONA_PRESETS.keys()), index=0)
     
     if persona_choice == "Custom Persona":
-        system_prompt = st.text_area("Custom System Directives", height=100, placeholder="Define behavioral rules...")
+        system_prompt = st.text_area("Custom Directives", height=100, placeholder="Define behavioral rules...")
     else:
-        system_prompt = st.text_area("System Directives", value=PERSONA_PRESETS[persona_choice], height=100)
+        system_prompt = st.text_area("Active Directives", value=PERSONA_PRESETS[persona_choice], height=100)
 
     with st.expander("Hyperparameters", expanded=False):
         temperature = st.slider("Temperature", 0.0, 1.5, 0.7, 0.05)
@@ -200,27 +240,27 @@ with st.sidebar:
         top_p = st.slider("Top-P", 0.1, 1.0, 0.9, 0.05)
 
     st.markdown("---")
-    st.markdown("### Telemetry")
+    st.markdown("### Session Metrics")
     
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(f"""
-        <div class="metric-card">
-            <span style="font-size:0.72rem; color:#71717a;">REQUESTS</span><br>
-            <span style="font-size:1.15rem; font-weight:600; color:#fafafa;">{st.session_state.query_count}</span>
+        <div class="card-3d">
+            <span style="font-size:0.72rem; color:#71717a; font-weight:600;">REQUESTS</span><br>
+            <span style="font-size:1.25rem; font-weight:700; color:#fafafa;">{st.session_state.query_count}</span>
         </div>
         """, unsafe_allow_html=True)
         st.markdown(f"""
-        <div class="metric-card">
-            <span style="font-size:0.72rem; color:#71717a;">EST. COST</span><br>
-            <span style="font-size:1.15rem; font-weight:600; color:#fafafa;">${st.session_state.session_cost:.5f}</span>
+        <div class="card-3d">
+            <span style="font-size:0.72rem; color:#71717a; font-weight:600;">EST. COST</span><br>
+            <span style="font-size:1.25rem; font-weight:700; color:#fafafa;">${st.session_state.session_cost:.5f}</span>
         </div>
         """, unsafe_allow_html=True)
     with col2:
         st.markdown(f"""
-        <div class="metric-card">
-            <span style="font-size:0.72rem; color:#71717a;">TOKENS</span><br>
-            <span style="font-size:1.15rem; font-weight:600; color:#fafafa;">{st.session_state.session_tokens}</span>
+        <div class="card-3d">
+            <span style="font-size:0.72rem; color:#71717a; font-weight:600;">TOKENS</span><br>
+            <span style="font-size:1.25rem; font-weight:700; color:#fafafa;">{st.session_state.session_tokens}</span>
         </div>
         """, unsafe_allow_html=True)
     
@@ -246,16 +286,16 @@ with st.sidebar:
         st.session_state.query_count = 0
         st.rerun()
 
-# Main Header
-st.markdown('<div class="brand-title">✦ NexChat Studio</div>', unsafe_allow_html=True)
+# Main Canvas Header
+st.markdown('<div class="title-3d">✦ NEXCHAT STUDIO</div>', unsafe_allow_html=True)
 st.markdown(
-    '<div class="brand-sub">High-throughput conversational AI workspace with streaming inference and token telemetry.</div>',
+    '<div class="subtitle-text">High-throughput conversational AI workspace with streaming inference and token telemetry.</div>',
     unsafe_allow_html=True
 )
 
-# Starter Prompt Chips
+# Starter Quick Prompt Cards
 if not st.session_state.messages:
-    st.markdown("<span style='font-size:0.85rem; color:#a1a1aa; font-weight:500;'>Quick Start</span>", unsafe_allow_html=True)
+    st.markdown("<span style='font-size:0.85rem; color:#a1a1aa; font-weight:600;'>QUICK WORKFLOWS</span>", unsafe_allow_html=True)
     p_col1, p_col2, p_col3 = st.columns(3)
     
     with p_col1:
@@ -324,9 +364,9 @@ if user_prompt:
                 st.session_state.query_count += 1
 
                 st.markdown(
-                    f'<div class="telemetry-chip">Latency: <b>{latency}s</b> | '
-                    f'Tokens: <b>{total_tokens}</b> | '
-                    f'Cost: <b>${cost:.6f}</b></div>',
+                    f'<div class="telemetry-chip">⚡ Latency: <b>{latency}s</b> | '
+                    f'🔢 Tokens: <b>{total_tokens}</b> | '
+                    f'💰 Cost: <b>${cost:.6f}</b></div>',
                     unsafe_allow_html=True
                 )
                 
