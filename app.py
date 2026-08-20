@@ -14,8 +14,8 @@ DEFAULT_SYSTEM_PROMPT = (
     "concise, and well-structured responses with clear code examples where applicable."
 )
 
-INPUT_TOKEN_COST_PER_MILLION = 0.59
-OUTPUT_TOKEN_COST_PER_MILLION = 0.79
+INPUT_TOKEN_COST_PER_MILLION = 0.15
+OUTPUT_TOKEN_COST_PER_MILLION = 0.60
 
 # Sidebar Controls
 with st.sidebar:
@@ -28,10 +28,9 @@ with st.sidebar:
     model_name = st.selectbox(
         "LLM Model Engine",
         [
-            "llama-3.3-70b-versatile",
-            "llama-3.1-8b-instant",
-            "mixtral-8x7b-32768",
-            "gemma2-9b-it"
+            "openai/gpt-oss-120b",
+            "openai/gpt-oss-20b",
+            "qwen/qwen3.6-27b"
         ],
         index=0
     )
@@ -43,7 +42,7 @@ with st.sidebar:
     
     st.markdown("### Hyperparameters")
     temperature = st.slider("Temperature (Creativity)", 0.0, 1.5, 0.7, 0.1)
-    max_tokens = st.slider("Max Output Tokens", 64, 2048, 512, 64)
+    max_tokens = st.slider("Max Output Tokens", 64, 4096, 1024, 64)
     top_p = st.slider("Top-P (Nucleus Sampling)", 0.1, 1.0, 0.9, 0.05)
     
     if st.button("🗑️ Clear Chat History", use_container_width=True):
