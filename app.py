@@ -1,8 +1,8 @@
 """
-NexChat Studio - Cyber-Futuristic 3D & Aurora Animated Interface
-================================================================
+NexChat Studio - Pure Dark & Starfield AI Conversation Engine
+=============================================================
 Author: Kunal Rawat
-Tech Stack: Streamlit, Groq API, Advanced CSS3 Keyframes & 3D Lighting
+Tech Stack: Streamlit, Groq API, Custom Minimalist CSS Starfield
 """
 
 import os
@@ -12,175 +12,141 @@ from groq import Groq, APIConnectionError, RateLimitError, APIStatusError
 
 # Page Configuration
 st.set_page_config(
-    page_title="NexChat Studio | Next-Gen AI",
-    page_icon="⚡",
+    page_title="NexChat Studio",
+    page_icon="✦",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Advanced 3D Aesthetics, Aurora Mesh Animation, and Cyberpunk Glassmorphism
+# Minimalist Deep-Black Starfield & Sleek UI Theme
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-    /* Global Typography */
+    /* Global Typography & Deep Dark Background */
     html, body, [class*="css"], .stApp {
-        font-family: 'Space Grotesk', sans-serif !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        color: #f1f5f9 !important;
     }
     
     code, pre {
         font-family: 'JetBrains Mono', monospace !important;
     }
 
-    /* Ambient Moving Aurora Mesh Background */
+    /* Pure Black Canvas with Crisp Starfield Grid */
     .stApp {
-        background: radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.18) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.18) 0%, transparent 40%),
-                    radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.12) 0%, transparent 60%),
-                    linear-gradient(180deg, #070913 0%, #0c1022 50%, #05070e 100%) !important;
-        background-attachment: fixed !important;
-        background-size: 200% 200% !important;
-        animation: auroraFlow 14s ease infinite alternate !important;
+        background-color: #000000 !important;
+        background-image: 
+            radial-gradient(1px 1px at 20px 30px, #ffffff 100%, transparent),
+            radial-gradient(1px 1px at 75px 120px, rgba(255,255,255,0.7) 100%, transparent),
+            radial-gradient(1.5px 1.5px at 160px 45px, #ffffff 100%, transparent),
+            radial-gradient(1px 1px at 240px 190px, rgba(255,255,255,0.4) 100%, transparent),
+            radial-gradient(1.5px 1.5px at 320px 260px, rgba(255,255,255,0.8) 100%, transparent),
+            radial-gradient(1px 1px at 410px 80px, #ffffff 100%, transparent),
+            radial-gradient(1px 1px at 480px 220px, rgba(255,255,255,0.6) 100%, transparent);
+        background-size: 550px 550px !important;
     }
 
-    @keyframes auroraFlow {
-        0% { background-position: 0% 0%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 100%; }
+    /* Minimalist Sidebar */
+    section[data-testid="stSidebar"] {
+        background: #030303 !important;
+        border-right: 1px solid #171717 !important;
     }
 
-    /* 3D Floating Isometric Header */
-    @keyframes float3D {
-        0% { transform: translateY(0px) rotateX(0deg); }
-        50% { transform: translateY(-7px) rotateX(4deg); }
-        100% { transform: translateY(0px) rotateX(0deg); }
-    }
-
-    .hero-3d-title {
-        font-size: 3.2rem;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+    /* Clean Sleek Header */
+    .brand-title {
+        font-size: 2.1rem;
+        font-weight: 700;
+        letter-spacing: -0.8px;
         color: #ffffff;
-        text-shadow: 
-            0 1px 0 #9333ea,
-            0 2px 0 #7e22ce,
-            0 3px 0 #6b21a8,
-            0 4px 0 #581c87,
-            0 6px 12px rgba(147, 51, 234, 0.4),
-            0 12px 30px rgba(6, 182, 212, 0.3);
-        animation: float3D 5s ease-in-out infinite;
-        margin-bottom: 0px;
-        perspective: 1000px;
+        margin-bottom: 2px;
     }
 
-    /* Neon Hologram Live Status Badge */
-    @keyframes pulseHolo {
-        0% { box-shadow: 0 0 5px rgba(6, 182, 212, 0.6), inset 0 0 5px rgba(6, 182, 212, 0.3); }
-        50% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.9), inset 0 0 10px rgba(6, 182, 212, 0.6); }
-        100% { box-shadow: 0 0 5px rgba(6, 182, 212, 0.6), inset 0 0 5px rgba(6, 182, 212, 0.3); }
+    .brand-sub {
+        color: #71717a;
+        font-size: 0.95rem;
+        margin-bottom: 24px;
     }
 
-    .holo-badge {
+    /* Status Badge */
+    .status-badge {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        background: rgba(6, 182, 212, 0.1);
-        color: #38bdf8;
-        padding: 6px 16px;
-        border-radius: 30px;
-        font-size: 0.82rem;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        border: 1px solid rgba(56, 189, 248, 0.4);
-        animation: pulseHolo 3s infinite;
-        margin-bottom: 15px;
-        backdrop-filter: blur(10px);
+        gap: 7px;
+        background: #09090b;
+        color: #a1a1aa;
+        padding: 4px 12px;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        border: 1px solid #27272a;
+        margin-bottom: 18px;
     }
 
-    /* 3D Glassmorphic Cards */
-    .glass-card-3d {
-        background: rgba(18, 22, 38, 0.65);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
-        padding: 16px;
-        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5),
-                    inset 0 1px 1px rgba(255, 255, 255, 0.15);
-        transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        margin-bottom: 12px;
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        background-color: #22c55e;
+        border-radius: 50%;
     }
 
-    .glass-card-3d:hover {
-        transform: translateY(-5px) scale(1.02);
-        border-color: rgba(147, 51, 234, 0.5);
-        box-shadow: 0 15px 35px -5px rgba(124, 58, 237, 0.3),
-                    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    /* Minimalist Monochromatic Metric Panels */
+    .metric-card {
+        background: #09090b;
+        border: 1px solid #18181b;
+        border-radius: 10px;
+        padding: 14px;
+        margin-bottom: 10px;
+    }
+    
+    .metric-card:hover {
+        border-color: #27272a;
     }
 
-    /* Sidebar Custom Glass Effect */
-    section[data-testid="stSidebar"] {
-        background: rgba(8, 11, 22, 0.85) !important;
-        backdrop-filter: blur(20px);
-        border-right: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    /* 3D Button Depth */
+    /* Clean Solid Buttons */
     .stButton > button {
-        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%) !important;
-        color: #ffffff !important;
-        border: 1px solid rgba(129, 140, 248, 0.3) !important;
-        border-radius: 12px !important;
-        font-weight: 700 !important;
-        padding: 10px 20px !important;
-        box-shadow: 0 4px 0 #1e1b4b, 0 8px 20px rgba(79, 70, 229, 0.25) !important;
-        transition: all 0.15s ease !important;
+        background: #18181b !important;
+        color: #fafafa !important;
+        border: 1px solid #27272a !important;
+        border-radius: 8px !important;
+        font-weight: 500 !important;
+        font-size: 0.88rem !important;
+        transition: all 0.2s ease !important;
     }
 
     .stButton > button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 0 #1e1b4b, 0 12px 25px rgba(124, 58, 237, 0.4) !important;
-        border-color: #a855f7 !important;
+        background: #27272a !important;
+        border-color: #3f3f46 !important;
+        color: #ffffff !important;
     }
 
-    .stButton > button:active {
-        transform: translateY(3px) !important;
-        box-shadow: 0 1px 0 #1e1b4b !important;
-    }
-
-    /* Glowing Telemetry Chip */
+    /* Inline Telemetry Chip */
     .telemetry-chip {
         display: inline-block;
-        background: linear-gradient(90deg, rgba(124, 58, 237, 0.15), rgba(6, 182, 212, 0.15));
-        color: #e0e7ff;
-        padding: 6px 14px;
-        border-radius: 10px;
-        font-size: 0.82rem;
-        margin-top: 8px;
-        border: 1px solid rgba(124, 58, 237, 0.3);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        background: #09090b;
+        color: #a1a1aa;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.78rem;
+        margin-top: 6px;
+        border: 1px solid #18181b;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # System Personas
 PERSONA_PRESETS = {
-    "⚡ Technical Architect": (
+    "Technical Architect": (
         "You are a Principal Software & AI Architect. Provide modular, production-grade "
-        "code solutions, detailed system design patterns, and zero conversational filler."
+        "code solutions, system architecture patterns, and concise technical breakdowns."
     ),
-    "🔬 Deep Learning Researcher": (
-        "You are an AI Research Scientist. Break down neural architectures, loss curves, "
-        "and mathematical formulations with precise analytical rigor."
+    "Machine Learning Engineer": (
+        "You are an AI/ML Specialist. Break down model architectures, optimization mathematics, "
+        "and training strategies with clear empirical reasoning."
     ),
-    "🐞 Senior Code Reviewer": (
-        "You are an Elite Code Auditor. Review code snippets for edge cases, memory leaks, "
-        "algorithmic time complexity (Big-O), and deliver refactored solutions."
-    ),
-    "🎯 Product Strategist": (
-        "You are a Tech Product Lead. Deliver concise, high-impact bulleted summaries, "
-        "product roadmaps, and actionable insights."
+    "Senior Code Reviewer": (
+        "You are a Senior Code Auditor. Review code snippets for edge cases, memory leaks, "
+        "time complexity (Big-O), and deliver refactored solutions."
     ),
     "Custom Persona": ""
 }
@@ -189,7 +155,7 @@ PERSONA_PRESETS = {
 INPUT_COST_PER_M = 0.15
 OUTPUT_COST_PER_M = 0.60
 
-# Session State Initialization
+# State Management
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "session_tokens" not in st.session_state:
@@ -199,25 +165,20 @@ if "session_cost" not in st.session_state:
 if "query_count" not in st.session_state:
     st.session_state.query_count = 0
 
-# Sidebar Control Hub
+# Sidebar Control Panel
 with st.sidebar:
-    st.markdown('<div class="holo-badge">⚡ GROQ ACCELERATED ENGINE</div>', unsafe_allow_html=True)
-    st.markdown("## ⚙️ Control Center")
-    st.caption("Engineered by **Kunal Rawat**")
+    st.markdown('<div class="status-badge"><span class="status-dot"></span> GROQ ENGINE ACTIVE</div>', unsafe_allow_html=True)
+    st.markdown("### Settings")
     
-    st.markdown("---")
-    st.subheader("🔑 Authentication")
     api_key = st.text_input(
         "Groq API Key",
         type="password",
         placeholder="gsk_...",
-        help="Get a free ultra-fast inference API key at console.groq.com"
+        help="Obtain a free key from console.groq.com"
     )
     
-    st.markdown("---")
-    st.subheader("🧠 Model Architecture")
     model_name = st.selectbox(
-        "Inference Engine",
+        "Model Engine",
         [
             "openai/gpt-oss-120b",
             "openai/gpt-oss-20b",
@@ -229,94 +190,92 @@ with st.sidebar:
     persona_choice = st.selectbox("System Persona", list(PERSONA_PRESETS.keys()), index=0)
     
     if persona_choice == "Custom Persona":
-        system_prompt = st.text_area("Custom System Directives", height=110, placeholder="Inject custom behavioral rules...")
+        system_prompt = st.text_area("Custom System Directives", height=100, placeholder="Define behavioral rules...")
     else:
-        system_prompt = st.text_area("Active System Directives", value=PERSONA_PRESETS[persona_choice], height=110)
+        system_prompt = st.text_area("System Directives", value=PERSONA_PRESETS[persona_choice], height=100)
 
-    with st.expander("🎛️ Hyperparameter Calibration", expanded=False):
-        temperature = st.slider("Temperature (Stochasticity)", 0.0, 1.5, 0.7, 0.05)
-        max_tokens = st.slider("Max Completion Tokens", 128, 4096, 1024, 128)
-        top_p = st.slider("Top-P (Nucleus Sampling)", 0.1, 1.0, 0.9, 0.05)
+    with st.expander("Hyperparameters", expanded=False):
+        temperature = st.slider("Temperature", 0.0, 1.5, 0.7, 0.05)
+        max_tokens = st.slider("Max Tokens", 128, 4096, 1024, 128)
+        top_p = st.slider("Top-P", 0.1, 1.0, 0.9, 0.05)
 
     st.markdown("---")
-    st.subheader("📊 Live Telemetry")
+    st.markdown("### Telemetry")
     
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(f"""
-        <div class="glass-card-3d">
-            <span style="font-size:0.75rem; color:#94a3b8; font-weight:700;">REQUESTS</span><br>
-            <span style="font-size:1.4rem; font-weight:800; color:#f8fafc;">{st.session_state.query_count}</span>
+        <div class="metric-card">
+            <span style="font-size:0.72rem; color:#71717a;">REQUESTS</span><br>
+            <span style="font-size:1.15rem; font-weight:600; color:#fafafa;">{st.session_state.query_count}</span>
         </div>
         """, unsafe_allow_html=True)
         st.markdown(f"""
-        <div class="glass-card-3d">
-            <span style="font-size:0.75rem; color:#94a3b8; font-weight:700;">EST. COST</span><br>
-            <span style="font-size:1.4rem; font-weight:800; color:#38bdf8;">${st.session_state.session_cost:.5f}</span>
+        <div class="metric-card">
+            <span style="font-size:0.72rem; color:#71717a;">EST. COST</span><br>
+            <span style="font-size:1.15rem; font-weight:600; color:#fafafa;">${st.session_state.session_cost:.5f}</span>
         </div>
         """, unsafe_allow_html=True)
     with col2:
         st.markdown(f"""
-        <div class="glass-card-3d">
-            <span style="font-size:0.75rem; color:#94a3b8; font-weight:700;">TOKENS</span><br>
-            <span style="font-size:1.4rem; font-weight:800; color:#c084fc;">{st.session_state.session_tokens}</span>
+        <div class="metric-card">
+            <span style="font-size:0.72rem; color:#71717a;">TOKENS</span><br>
+            <span style="font-size:1.15rem; font-weight:600; color:#fafafa;">{st.session_state.session_tokens}</span>
         </div>
         """, unsafe_allow_html=True)
     
     st.markdown("---")
     
     if st.session_state.messages:
-        chat_markdown = "# NexChat Multi-Turn Session Log\n\n"
+        chat_markdown = "# NexChat Session Export\n\n"
         for m in st.session_state.messages:
             chat_markdown += f"### {m['role'].upper()}\n{m['content']}\n\n---\n\n"
             
         st.download_button(
-            label="📥 Export Chat Log (.md)",
+            label="Export Session (.md)",
             data=chat_markdown,
-            file_name="nexchat_session_log.md",
+            file_name="session_log.md",
             mime="text/markdown",
             use_container_width=True
         )
 
-    if st.button("🗑️ Flush Conversation", use_container_width=True):
+    if st.button("Reset Session", use_container_width=True):
         st.session_state.messages = []
         st.session_state.session_tokens = 0
         st.session_state.session_cost = 0.0
         st.session_state.query_count = 0
         st.rerun()
 
-# Main Header & 3D Title
-st.markdown('<h1 class="hero-3d-title">⚡ NexChat Studio</h1>', unsafe_allow_html=True)
+# Main Header
+st.markdown('<div class="brand-title">✦ NexChat Studio</div>', unsafe_allow_html=True)
 st.markdown(
-    "<p style='color: #94a3b8; font-size: 1.1rem; margin-top: -6px; margin-bottom: 26px;'>"
-    "Next-generation conversational interface with real-time streaming, hyperparameter calibration, and token cost telemetry."
-    "</p>",
+    '<div class="brand-sub">High-throughput conversational AI workspace with streaming inference and token telemetry.</div>',
     unsafe_allow_html=True
 )
 
-# Starter Quick Prompt Cards
+# Starter Prompt Chips
 if not st.session_state.messages:
-    st.markdown("##### 🚀 Fast-Track Prompt Presets")
+    st.markdown("<span style='font-size:0.85rem; color:#a1a1aa; font-weight:500;'>Quick Start</span>", unsafe_allow_html=True)
     p_col1, p_col2, p_col3 = st.columns(3)
     
     with p_col1:
-        if st.button("🔍 Explain Transformer Attention", use_container_width=True):
+        if st.button("Explain Transformer Attention", use_container_width=True):
             st.session_state.preset_prompt = "Explain Multi-Head Self-Attention mathematically and architecturally."
     with p_col2:
-        if st.button("⚡ Optimize PyTorch Training", use_container_width=True):
+        if st.button("Optimize PyTorch Training", use_container_width=True):
             st.session_state.preset_prompt = "How can I resolve GPU data transfer bottlenecks in a PyTorch pipeline?"
     with p_col3:
-        if st.button("📊 Vector Cosine vs Dot Product", use_container_width=True):
+        if st.button("Vector Cosine vs Dot Product", use_container_width=True):
             st.session_state.preset_prompt = "Compare Cosine Similarity and Dot-Product metric spaces for embeddings."
 
-# Render Message History
+# Render Chat History
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# User Input Execution Pipeline
+# Query Submission Pipeline
 starter_val = st.session_state.pop("preset_prompt", None)
-user_prompt = st.chat_input("Enter your prompt or instruction...") or starter_val
+user_prompt = st.chat_input("Ask a question or enter a command...") or starter_val
 
 if user_prompt:
     st.session_state.messages.append({"role": "user", "content": user_prompt})
@@ -326,14 +285,14 @@ if user_prompt:
     effective_key = api_key.strip() or os.getenv("GROQ_API_KEY", "")
 
     if not effective_key:
-        err_msg = "❌ **Missing API Key:** Please provide your Groq API key in the left sidebar to initialize inference."
+        err_msg = "Please enter a valid Groq API key in the sidebar."
         with st.chat_message("assistant"):
             st.error(err_msg)
         st.session_state.messages.append({"role": "assistant", "content": err_msg})
     else:
         client = Groq(api_key=effective_key)
         
-        payload_messages = [{"role": "system", "content": system_prompt.strip() or PERSONA_PRESETS["⚡ Technical Architect"]}]
+        payload_messages = [{"role": "system", "content": system_prompt.strip() or PERSONA_PRESETS["Technical Architect"]}]
         for m in st.session_state.messages:
             payload_messages.append({"role": m["role"], "content": m["content"]})
 
@@ -352,7 +311,6 @@ if user_prompt:
                 response_content = st.write_stream(stream)
                 latency = round(time.time() - start_time, 2)
 
-                # Telemetry Calculations
                 prompt_tokens = len(str(payload_messages)) // 4
                 completion_tokens = len(response_content) // 4
                 total_tokens = prompt_tokens + completion_tokens
@@ -366,27 +324,27 @@ if user_prompt:
                 st.session_state.query_count += 1
 
                 st.markdown(
-                    f'<div class="telemetry-chip">⚡ Latency: <b>{latency}s</b> | '
-                    f'🔢 Tokens: <b>{total_tokens}</b> | '
-                    f'💰 Est. Cost: <b>${cost:.6f}</b></div>',
+                    f'<div class="telemetry-chip">Latency: <b>{latency}s</b> | '
+                    f'Tokens: <b>{total_tokens}</b> | '
+                    f'Cost: <b>${cost:.6f}</b></div>',
                     unsafe_allow_html=True
                 )
                 
                 st.session_state.messages.append({"role": "assistant", "content": response_content})
 
             except RateLimitError:
-                err = "⚠️ Rate limit exceeded. Please wait a moment before re-submitting."
+                err = "Rate limit reached. Please retry in a few seconds."
                 st.warning(err)
                 st.session_state.messages.append({"role": "assistant", "content": err})
             except APIConnectionError:
-                err = "❌ Connection failed. Check your network link."
+                err = "Connection failed. Check your network link."
                 st.error(err)
                 st.session_state.messages.append({"role": "assistant", "content": err})
             except APIStatusError as e:
-                err = f"❌ API Error ({e.status_code}): {e.message}"
+                err = f"API Error ({e.status_code}): {e.message}"
                 st.error(err)
                 st.session_state.messages.append({"role": "assistant", "content": err})
             except Exception as e:
-                err = f"❌ Error: {str(e)}"
+                err = f"Error: {str(e)}"
                 st.error(err)
                 st.session_state.messages.append({"role": "assistant", "content": err})
