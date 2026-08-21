@@ -3,7 +3,7 @@ DocuMind RAG Studio - Quantum Neural Document Intelligence
 ==========================================================
 Author: Kunal Rawat
 Tech Stack: Streamlit, Groq API, SentenceTransformers, NumPy, PyPDF
-Theme: Quantum Cyber-Slate & Neon HUD
+Theme: Neo-Cyber Iris & Light Glassmorphism
 """
 
 import os
@@ -24,7 +24,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Quantum Cyber-Slate & Neon HUD Styling
+# Custom Light Glassmorphism & Cyber Styling
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
@@ -87,10 +87,9 @@ st.markdown("""
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin: 1.3rem 0 .35rem;
-        animation: title-in .75s cubic-bezier(.2,.8,.2,1) both;
     }
 
-    .cyber-sub { color: var(--muted); font-size: 1rem; margin-bottom: 1.35rem; animation: fade-up .8s .1s both; }
+    .cyber-sub { color: var(--muted); font-size: 1rem; margin-bottom: 1.35rem; }
 
     .hud-card, .citation-card {
         background: var(--surface) !important;
@@ -141,19 +140,14 @@ st.markdown("""
         background: rgba(255,255,255,.72) !important;
     }
     .stChatInput { border-color: rgba(115,87,255,.28) !important; box-shadow: 0 10px 30px rgba(115,87,255,.10) !important; }
-    [data-testid="stChatMessage"] { animation: fade-up .42s ease both; }
     [data-testid="stAlert"] { border-radius: 14px !important; border: 1px solid var(--line) !important; box-shadow: 0 8px 24px rgba(68,77,115,.06); }
     hr { border-color: var(--line) !important; }
-
-    @keyframes title-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 </style>
 """, unsafe_allow_html=True)
 
 
 # Load Dense Embedding Model
-@st.cache_resource(show_spinner="Initializing all-MiniLM-L6-v2 dense vector embedder...")
+@st.cache_resource(show_spinner="Initializing dense vector embedder...")
 def load_embedder():
     return SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
@@ -235,8 +229,8 @@ if "query_count" not in st.session_state:
 # Sidebar Navigation & Settings
 with st.sidebar:
     st.markdown("""
-        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(6,182,212,0.12); color:#38bdf8; padding:4px 12px; border-radius:9999px; font-size:0.75rem; font-weight:700; border:1px solid rgba(56,189,248,0.3); margin-bottom:14px;">
-            <span style="width:6px; height:6px; background:#06b6d4; border-radius:50%; box-shadow:0 0 8px #06b6d4;"></span>
+        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(0,184,217,0.12); color:#00b8d9; padding:4px 12px; border-radius:9999px; font-size:0.75rem; font-weight:700; border:1px solid rgba(0,184,217,0.3); margin-bottom:14px;">
+            <span style="width:6px; height:6px; background:#00b8d9; border-radius:50%;"></span>
             NEURAL ENGINE ONLINE
         </div>
     """, unsafe_allow_html=True)
@@ -293,15 +287,15 @@ with st.sidebar:
     with col1:
         st.markdown(f"""
         <div class="hud-card">
-            <span style="font-size:0.7rem; color:#94a3b8; font-weight:700;">CHUNKS</span><br>
-            <span style="font-size:1.2rem; font-weight:800; color:#38bdf8;">{len(st.session_state.doc_chunks)}</span>
+            <span style="font-size:0.7rem; color:var(--muted); font-weight:700;">CHUNKS</span><br>
+            <span style="font-size:1.2rem; font-weight:800; color:var(--violet);">{len(st.session_state.doc_chunks)}</span>
         </div>
         """, unsafe_allow_html=True)
     with col2:
         st.markdown(f"""
         <div class="hud-card">
-            <span style="font-size:0.7rem; color:#94a3b8; font-weight:700;">QUERIES</span><br>
-            <span style="font-size:1.2rem; font-weight:800; color:#818cf8;">{st.session_state.query_count}</span>
+            <span style="font-size:0.7rem; color:var(--muted); font-weight:700;">QUERIES</span><br>
+            <span style="font-size:1.2rem; font-weight:800; color:var(--cyan);">{st.session_state.query_count}</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -322,7 +316,7 @@ st.markdown(
 )
 
 if st.session_state.processed_filename:
-    st.info(f"📂 Active Knowledge Base: **{st.session_state.processed_filename}** ({len(st.session_state.doc_chunks)} dense vector vectors indexed)")
+    st.info(f"📂 Active Knowledge Base: **{st.session_state.processed_filename}** ({len(st.session_state.doc_chunks)} dense vectors indexed)")
 else:
     st.warning("⚠️ Knowledge base empty. Upload a PDF or TXT document in the sidebar to activate semantic grounding.")
 
@@ -341,7 +335,7 @@ for msg in st.session_state.messages:
                                 <b>Chunk #{c["chunk"]["id"]}</b>
                                 <span class="confidence-badge">Similarity: {c["score"]:.4f} ({pct}%)</span>
                             </div>
-                            <div style="color:#94a3b8; font-size:0.82rem;">{c["chunk"]["text"]}</div>
+                            <div style="color:var(--muted); font-size:0.82rem;">{c["chunk"]["text"]}</div>
                         </div>
                         """,
                         unsafe_allow_html=True
@@ -437,7 +431,7 @@ if user_query:
                                     <b>Chunk #{c["chunk"]["id"]}</b>
                                     <span class="confidence-badge">Similarity: {c["score"]:.4f} ({pct}%)</span>
                                 </div>
-                                <div style="color:#94a3b8; font-size:0.82rem;">{c["chunk"]["text"]}</div>
+                                <div style="color:var(--muted); font-size:0.82rem;">{c["chunk"]["text"]}</div>
                             </div>
                             """,
                             unsafe_allow_html=True
