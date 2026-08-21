@@ -27,123 +27,127 @@ st.set_page_config(
 # Quantum Cyber-Slate & Neon HUD Styling
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+    :root {
+        --ink: #172033;
+        --muted: #65708a;
+        --paper: #fbfcff;
+        --surface: rgba(255, 255, 255, 0.78);
+        --line: rgba(94, 104, 140, 0.16);
+        --violet: #7357ff;
+        --cyan: #00b8d9;
+        --pink: #ff5caa;
+        --lime: #b8e44c;
+    }
 
     html, body, [class*="css"], .stApp {
-        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
-        color: #e2e8f0 !important;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        color: var(--ink) !important;
     }
 
-    code, pre {
-        font-family: 'JetBrains Mono', monospace !important;
-    }
+    code, pre { font-family: 'Space Mono', monospace !important; }
 
-    /* Cyber-Slate Canvas with Glowing Isometric Vector Grid */
     .stApp {
-        background-color: #07090e !important;
-        background-image: 
-            linear-gradient(to right, rgba(14, 165, 233, 0.04) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(14, 165, 233, 0.04) 1px, transparent 1px),
-            radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.12) 0%, transparent 60%);
-        background-size: 40px 40px, 40px 40px, 100% 100% !important;
+        background:
+            radial-gradient(circle at 8% 8%, rgba(255, 92, 170, .12), transparent 24%),
+            radial-gradient(circle at 94% 2%, rgba(0, 184, 217, .14), transparent 27%),
+            linear-gradient(135deg, #f8f9ff 0%, #ffffff 48%, #f7fbff 100%) !important;
+        background-attachment: fixed !important;
     }
 
-    /* Sidebar Glassmorphic Titanium Surface */
+    .stApp::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: .24;
+        background-image: linear-gradient(rgba(115, 87, 255, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(115, 87, 255, .035) 1px, transparent 1px);
+        background-size: 34px 34px;
+        mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+
     section[data-testid="stSidebar"] {
-        background: rgba(10, 14, 23, 0.85) !important;
-        backdrop-filter: blur(20px) !important;
-        border-right: 1px solid rgba(14, 165, 233, 0.15) !important;
+        background: rgba(250, 251, 255, .84) !important;
+        backdrop-filter: blur(24px) !important;
+        border-right: 1px solid var(--line) !important;
+        box-shadow: 12px 0 34px rgba(58, 68, 106, .07) !important;
     }
 
-    /* Cyber Title with Electric Glow */
+    section[data-testid="stSidebar"] > div { padding-top: 2rem !important; }
+    section[data-testid="stSidebar"] h3 { color: var(--ink) !important; letter-spacing: -.02em; }
+    section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] .stMarkdown p { color: var(--muted) !important; }
+
     .cyber-title {
-        font-size: 2.2rem;
+        font-size: clamp(2.1rem, 4vw, 3.5rem);
+        line-height: 1.02;
         font-weight: 800;
-        letter-spacing: -0.5px;
-        background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #818cf8 100%);
+        letter-spacing: -.065em;
+        background: linear-gradient(100deg, var(--ink) 10%, var(--violet) 48%, var(--pink) 92%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 2px;
+        margin: 1.3rem 0 .35rem;
+        animation: title-in .75s cubic-bezier(.2,.8,.2,1) both;
     }
 
-    .cyber-sub {
-        color: #94a3b8;
-        font-size: 0.95rem;
-        margin-bottom: 20px;
+    .cyber-sub { color: var(--muted); font-size: 1rem; margin-bottom: 1.35rem; animation: fade-up .8s .1s both; }
+
+    .hud-card, .citation-card {
+        background: var(--surface) !important;
+        backdrop-filter: blur(18px);
+        border: 1px solid var(--line) !important;
+        border-radius: 18px !important;
+        box-shadow: 0 12px 35px rgba(68, 77, 115, .08), inset 0 1px 0 rgba(255,255,255,.9) !important;
+        transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease !important;
     }
 
-    /* Quantum HUD Cards */
-    .hud-card {
-        background: linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(10, 15, 30, 0.9) 100%);
-        border: 1px solid rgba(56, 189, 248, 0.18);
-        border-radius: 12px;
-        padding: 14px;
-        margin-bottom: 10px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        transition: all 0.2s ease;
-    }
+    .hud-card { padding: 15px !important; margin-bottom: 11px !important; }
+    .hud-card:hover, .citation-card:hover { transform: translateY(-3px); border-color: rgba(115,87,255,.34) !important; box-shadow: 0 18px 38px rgba(68, 77, 115, .13) !important; }
 
-    .hud-card:hover {
-        border-color: rgba(56, 189, 248, 0.45);
-        box-shadow: 0 6px 24px rgba(6, 182, 212, 0.15);
-    }
+    .citation-card { border-left: 4px solid var(--cyan) !important; padding: 14px 17px !important; margin: 9px 0 !important; color: var(--ink) !important; }
+    .citation-card b { color: var(--ink) !important; }
+    .citation-card div[style*="color:#94a3b8"] { color: var(--muted) !important; }
 
-    /* Neon Citation Cards */
-    .citation-card {
-        background: rgba(15, 23, 42, 0.65);
-        border: 1px solid rgba(56, 189, 248, 0.2);
-        border-left: 3px solid #06b6d4;
-        border-radius: 8px;
-        padding: 12px 16px;
-        margin: 8px 0px;
-        font-size: 0.85rem;
-        color: #cbd5e1;
-    }
-
-    /* Confidence Score Pill */
-    .confidence-badge {
+    .confidence-badge, .telemetry-chip {
         display: inline-flex;
         align-items: center;
         gap: 5px;
-        background: rgba(6, 182, 212, 0.12);
-        color: #38bdf8;
-        border: 1px solid rgba(56, 189, 248, 0.3);
-        padding: 2px 8px;
-        border-radius: 6px;
-        font-size: 0.72rem;
-        font-weight: 600;
-        font-family: 'JetBrains Mono', monospace;
+        background: rgba(184, 228, 76, .18) !important;
+        color: #547400 !important;
+        border: 1px solid rgba(120, 165, 27, .28) !important;
+        border-radius: 999px !important;
+        font-size: .72rem;
+        font-weight: 700;
+        font-family: 'Space Mono', monospace;
     }
+    .confidence-badge { padding: 4px 9px; }
+    .telemetry-chip { padding: 8px 15px; margin-top: 12px; box-shadow: 0 8px 20px rgba(88, 113, 20, .08); }
 
-    /* Cyber Buttons */
     .stButton > button {
-        background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%) !important;
-        color: #38bdf8 !important;
-        border: 1px solid rgba(56, 189, 248, 0.3) !important;
-        border-radius: 8px !important;
-        font-weight: 600 !important;
-        font-size: 0.88rem !important;
-        transition: all 0.18s ease !important;
+        background: linear-gradient(105deg, var(--violet), #967cff) !important;
+        color: #fff !important;
+        border: 0 !important;
+        border-radius: 12px !important;
+        font-weight: 700 !important;
+        box-shadow: 0 8px 18px rgba(115,87,255,.22) !important;
+        transition: transform .2s ease, box-shadow .2s ease, filter .2s ease !important;
     }
+    .stButton > button:hover { transform: translateY(-2px) !important; filter: saturate(1.12) !important; box-shadow: 0 13px 25px rgba(115,87,255,.3) !important; }
+    .stButton > button:active { transform: translateY(0) scale(.985) !important; }
 
-    .stButton > button:hover {
-        background: linear-gradient(135deg, rgba(14, 165, 233, 0.35) 0%, rgba(99, 102, 241, 0.35) 100%) !important;
-        border-color: #38bdf8 !important;
-        color: #ffffff !important;
-        box-shadow: 0 0 16px rgba(56, 189, 248, 0.3) !important;
+    .stTextInput input, .stSelectbox [data-baseweb="select"], .stTextArea textarea, .stFileUploader {
+        border-radius: 12px !important;
+        border-color: var(--line) !important;
+        background: rgba(255,255,255,.72) !important;
     }
+    .stChatInput { border-color: rgba(115,87,255,.28) !important; box-shadow: 0 10px 30px rgba(115,87,255,.10) !important; }
+    [data-testid="stChatMessage"] { animation: fade-up .42s ease both; }
+    [data-testid="stAlert"] { border-radius: 14px !important; border: 1px solid var(--line) !important; box-shadow: 0 8px 24px rgba(68,77,115,.06); }
+    hr { border-color: var(--line) !important; }
 
-    /* Telemetry Pill */
-    .telemetry-chip {
-        display: inline-block;
-        background: rgba(15, 23, 42, 0.85);
-        color: #94a3b8;
-        padding: 6px 14px;
-        border-radius: 8px;
-        font-size: 0.8rem;
-        margin-top: 8px;
-        border: 1px solid rgba(56, 189, 248, 0.2);
-    }
+    @keyframes title-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 </style>
 """, unsafe_allow_html=True)
 
